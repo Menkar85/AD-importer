@@ -1,0 +1,14 @@
+<RCC>
+  <qresource>
+    <file>images/icons8-about-100.png</file>
+    <file>images/icons8-russia-100.png</file>
+    <file>images/icons8-united-kingdom-100.png</file>
+    <file>images/icons8-cancel-100.png</file>
+    <file>images/icons8-export-100.png</file>
+    <file>images/icons8-view-100.png</file>
+    <file>images/folder-1485.png</file>
+    <file>images/aboutIcon.png</file>
+    <file>images/aboutQtIcon.png</file>
+    <file>images/quitIcon.png</file>
+  </qresource>
+</RCC>
