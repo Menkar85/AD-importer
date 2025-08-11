@@ -35,6 +35,7 @@ class Ui_main_window(object):
         main_window.setWindowIcon(icon)
         self.actionEnglish = QAction(main_window)
         self.actionEnglish.setObjectName(u"actionEnglish")
+        self.actionEnglish.setEnabled(True)
         icon1 = QIcon()
         icon1.addFile(u":/images/icons8-united-kingdom-100.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.actionEnglish.setIcon(icon1)
@@ -150,42 +151,42 @@ class Ui_main_window(object):
         self.groupBox = QGroupBox(self.centralwidget)
         self.groupBox.setObjectName(u"groupBox")
         self.groupBox.setFont(font1)
-        self.verticalLayout_9 = QVBoxLayout(self.groupBox)
-        self.verticalLayout_9.setObjectName(u"verticalLayout_9")
-        self.verticalLayout_8 = QVBoxLayout()
+        self.verticalLayout_8 = QVBoxLayout(self.groupBox)
         self.verticalLayout_8.setObjectName(u"verticalLayout_8")
-        self.horizontalLayout_4 = QHBoxLayout()
-        self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
-        self.verticalLayout_7 = QVBoxLayout()
-        self.verticalLayout_7.setObjectName(u"verticalLayout_7")
-        self.label_5 = QLabel(self.groupBox)
-        self.label_5.setObjectName(u"label_5")
-        self.label_5.setFont(font1)
-
-        self.verticalLayout_7.addWidget(self.label_5)
-
+        self.horizontalLayout_5 = QHBoxLayout()
+        self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
+        self.verticalLayout_3 = QVBoxLayout()
+        self.verticalLayout_3.setObjectName(u"verticalLayout_3")
         self.label_6 = QLabel(self.groupBox)
         self.label_6.setObjectName(u"label_6")
         self.label_6.setFont(font1)
 
-        self.verticalLayout_7.addWidget(self.label_6)
+        self.verticalLayout_3.addWidget(self.label_6)
+
+        self.label_5 = QLabel(self.groupBox)
+        self.label_5.setObjectName(u"label_5")
+        self.label_5.setFont(font1)
+
+        self.verticalLayout_3.addWidget(self.label_5)
+
+        self.label_7 = QLabel(self.groupBox)
+        self.label_7.setObjectName(u"label_7")
+        self.label_7.setFont(font1)
+
+        self.verticalLayout_3.addWidget(self.label_7)
 
 
-        self.horizontalLayout_4.addLayout(self.verticalLayout_7)
+        self.horizontalLayout_5.addLayout(self.verticalLayout_3)
 
-        self.verticalLayout_3 = QVBoxLayout()
-        self.verticalLayout_3.setObjectName(u"verticalLayout_3")
-        self.destination_ou_line_edit = QLineEdit(self.groupBox)
-        self.destination_ou_line_edit.setObjectName(u"destination_ou_line_edit")
-
-        self.verticalLayout_3.addWidget(self.destination_ou_line_edit)
-
-        self.horizontalLayout_3 = QHBoxLayout()
-        self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
+        self.verticalLayout_7 = QVBoxLayout()
+        self.verticalLayout_7.setObjectName(u"verticalLayout_7")
+        self.horizontalLayout_4 = QHBoxLayout()
+        self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
         self.source_file_line_edit = QLineEdit(self.groupBox)
         self.source_file_line_edit.setObjectName(u"source_file_line_edit")
+        self.source_file_line_edit.setReadOnly(True)
 
-        self.horizontalLayout_3.addWidget(self.source_file_line_edit)
+        self.horizontalLayout_4.addWidget(self.source_file_line_edit)
 
         self.browse_button = QPushButton(self.groupBox)
         self.browse_button.setObjectName(u"browse_button")
@@ -193,16 +194,37 @@ class Ui_main_window(object):
         icon5.addFile(u":/images/folder-1485.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.browse_button.setIcon(icon5)
 
-        self.horizontalLayout_3.addWidget(self.browse_button)
+        self.horizontalLayout_4.addWidget(self.browse_button)
 
 
-        self.verticalLayout_3.addLayout(self.horizontalLayout_3)
+        self.verticalLayout_7.addLayout(self.horizontalLayout_4)
+
+        self.destination_ou_line_edit = QLineEdit(self.groupBox)
+        self.destination_ou_line_edit.setObjectName(u"destination_ou_line_edit")
+
+        self.verticalLayout_7.addWidget(self.destination_ou_line_edit)
+
+        self.horizontalLayout_3 = QHBoxLayout()
+        self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
+        self.result_file_line_edit = QLineEdit(self.groupBox)
+        self.result_file_line_edit.setObjectName(u"result_file_line_edit")
+
+        self.horizontalLayout_3.addWidget(self.result_file_line_edit)
+
+        self.result_save_as_button = QPushButton(self.groupBox)
+        self.result_save_as_button.setObjectName(u"result_save_as_button")
+        self.result_save_as_button.setIcon(icon5)
+
+        self.horizontalLayout_3.addWidget(self.result_save_as_button)
 
 
-        self.horizontalLayout_4.addLayout(self.verticalLayout_3)
+        self.verticalLayout_7.addLayout(self.horizontalLayout_3)
 
 
-        self.verticalLayout_8.addLayout(self.horizontalLayout_4)
+        self.horizontalLayout_5.addLayout(self.verticalLayout_7)
+
+
+        self.verticalLayout_8.addLayout(self.horizontalLayout_5)
 
         self.preview_table_view = QTableView(self.groupBox)
         self.preview_table_view.setObjectName(u"preview_table_view")
@@ -212,9 +234,6 @@ class Ui_main_window(object):
         self.preview_table_view.setWordWrap(False)
 
         self.verticalLayout_8.addWidget(self.preview_table_view)
-
-
-        self.verticalLayout_9.addLayout(self.verticalLayout_8)
 
 
         self.verticalLayout_4.addWidget(self.groupBox)
@@ -265,6 +284,7 @@ class Ui_main_window(object):
         self.menuSettings.setObjectName(u"menuSettings")
         self.menuLanguage = QMenu(self.menubar)
         self.menuLanguage.setObjectName(u"menuLanguage")
+        self.menuLanguage.setEnabled(False)
         self.menuAbout = QMenu(self.menubar)
         self.menuAbout.setObjectName(u"menuAbout")
         main_window.setMenuBar(self.menubar)
@@ -303,9 +323,11 @@ class Ui_main_window(object):
         self.label_4.setText(QCoreApplication.translate("main_window", u"UPN-suffix:", None))
         self.test_button.setText(QCoreApplication.translate("main_window", u"Test", None))
         self.groupBox.setTitle(QCoreApplication.translate("main_window", u"Import configuration", None))
-        self.label_5.setText(QCoreApplication.translate("main_window", u"Destination OU:", None))
         self.label_6.setText(QCoreApplication.translate("main_window", u"Source file:", None))
+        self.label_5.setText(QCoreApplication.translate("main_window", u"Destination OU:", None))
+        self.label_7.setText(QCoreApplication.translate("main_window", u"Save result to:", None))
         self.browse_button.setText(QCoreApplication.translate("main_window", u"Browse", None))
+        self.result_save_as_button.setText(QCoreApplication.translate("main_window", u"Save as", None))
         self.preview_button.setText(QCoreApplication.translate("main_window", u"Preview file", None))
         self.start_import_button.setText(QCoreApplication.translate("main_window", u"Start importing", None))
         self.cancel_button.setText(QCoreApplication.translate("main_window", u"Cancel", None))

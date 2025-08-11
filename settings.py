@@ -1,4 +1,4 @@
-from PySide6.QtWidgets import QWidget
+from PySide6.QtWidgets import QWidget, QFileDialog
 import pickle
 import os
 from ui_settings import Ui_SettingsWidget
@@ -19,32 +19,27 @@ class SettingsWidget(Ui_SettingsWidget, QWidget):
 
         # data init
         self.parent = parent
-        self.result_folder = parent.result_folder or ""
-        self.result_file_name = parent.result_file_name or "result"
         self.log_folder = parent.log_folder or ""
-        self.log_file_name = parent.log_file_name or "log"
         self.keep_settings = parent.keep_settings
         self.protocol = parent.protocol or "LDAP"
 
-        self.result_folder_line_edit.setText(self.result_folder)
-        self.result_file_name_line_edit.setText(self.result_file_name)
+        # fields
         self.log_folder_line_edit.setText(self.log_folder)
-        self.log_file_name_line_edit.setText(self.log_file_name)
+        self.log_folder_line_edit.setReadOnly(True)
+        self.protocol_combo_box.addItems(['LDAP', 'LDAPS'])
+        self.protocol_combo_box.setCurrentText(self.protocol)
+        self.protocol_combo_box.currentTextChanged.connect(self._protocol_changed)
 
-        self.result_folder_browse_button.clicked.connect(self._result_browse_button_clicked)
         self.log_folder_browse_button.clicked.connect(self._log_browse_button_clicked)
         self.settings_ok_button.clicked.connect(self._ok_button_clicked)
         self.settings_apply_button.clicked.connect(self._apply_button_clicked)
         self.settings_cancel_button.clicked.connect(self._cancel_button_clicked)
 
     # slots
-    def _result_browse_button_clicked(self):
-        # TODO: browse button for result via get path
-        pass
-
     def _log_browse_button_clicked(self):
-        # TODO: browse button for log via get path
-        pass
+        directory = QFileDialog.getExistingDirectory()
+        self.log_folder = directory
+        self.log_folder_line_edit.setText(directory)
 
     def _ok_button_clicked(self):
         self._apply_button_clicked()
@@ -52,10 +47,7 @@ class SettingsWidget(Ui_SettingsWidget, QWidget):
 
     def _apply_button_clicked(self):
         app_settings = {
-            'result_folder': self.result_folder,
-            'result_file_name': self.result_file_name,
             'log_folder': self.log_folder,
-            'log_file_name': self.log_file_name,
             'keep_settings': self.keep_settings,
             'protocol': self.protocol,
         }
@@ -65,8 +57,8 @@ class SettingsWidget(Ui_SettingsWidget, QWidget):
         for attr, value in app_settings.items():
             setattr(self.parent, attr, value)
 
-
     def _cancel_button_clicked(self):
         self.destroy()
 
-
+    def _protocol_changed(self):
+        self.protocol = self.protocol_combo_box.currentText()
