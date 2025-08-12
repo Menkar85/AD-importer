@@ -25,6 +25,7 @@ class SettingsWidget(Ui_SettingsWidget, QWidget):
 
         # fields
         self.log_folder_line_edit.setText(self.log_folder)
+        self.keep_settings_checkbox.setChecked(self.keep_settings)
         self.log_folder_line_edit.setReadOnly(True)
         self.protocol_combo_box.addItems(['LDAP', 'LDAPS'])
         self.protocol_combo_box.setCurrentText(self.protocol)
@@ -34,6 +35,7 @@ class SettingsWidget(Ui_SettingsWidget, QWidget):
         self.settings_ok_button.clicked.connect(self._ok_button_clicked)
         self.settings_apply_button.clicked.connect(self._apply_button_clicked)
         self.settings_cancel_button.clicked.connect(self._cancel_button_clicked)
+        self.keep_settings_checkbox.checkStateChanged.connect(self._keep_settings_checked)
 
     # slots
     def _log_browse_button_clicked(self):
@@ -62,3 +64,6 @@ class SettingsWidget(Ui_SettingsWidget, QWidget):
 
     def _protocol_changed(self):
         self.protocol = self.protocol_combo_box.currentText()
+
+    def _keep_settings_checked(self):
+        self.keep_settings = self.keep_settings_checkbox.isChecked()

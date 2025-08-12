@@ -7,6 +7,7 @@ from ui_mainwindow import Ui_main_window
 from settings import SettingsWidget
 from settings import APP_SETTINGS, AD_SETTINGS, VERSION
 from utils.xlsxutils import get_excel_data, build_import_data
+from utils.ad_utils import import_ad_users
 
 
 class MainWindow(Ui_main_window, QMainWindow):
@@ -24,17 +25,25 @@ class MainWindow(Ui_main_window, QMainWindow):
         self.upn_suffix = None
         self.destination_ou = None
         self.source_file = None
-        self._retrieve_ad_settings()
+
 
         # settings init
-        self.result_folder = None
-        self.result_file_name = f"result_{datetime.now().strftime('%Y_%m_%d_%H_%M')}"
+        self.result_file_name = None
         self.log_folder = None
-        self.log_file_name = None
+        self.log_file_name = f"result_{datetime.now().strftime('%Y_%m_%d_%H_%M')}"
         self.keep_settings = True
         self.protocol = "LDAP"
 
         self._retrieve_app_settings()
+        if self.keep_settings:
+            self._retrieve_ad_settings()
+            # fill data into linedits
+            self.ad_server_line_edit.setText(self.ad_server)
+            self.username_line_edit.setText(self.ad_user)
+            self.upn_suffix_line_edit.setText(self.upn_suffix)
+            self.destination_ou_line_edit.setText(self.destination_ou)
+
+
 
         # menubar
         self.actionSettings.triggered.connect(self.settings_open)
@@ -57,10 +66,6 @@ class MainWindow(Ui_main_window, QMainWindow):
         self.password_line_edit.editingFinished.connect(self._password_line_edit_finished)
         self.upn_suffix_line_edit.editingFinished.connect(self._upn_suffix_line_edit_finished)
         self.destination_ou_line_edit.editingFinished.connect(self._destination_ou_line_edit_finished)
-
-
-
-
 
     # slots
     def settings_open(self):
@@ -113,12 +118,15 @@ class MainWindow(Ui_main_window, QMainWindow):
         self.preview_table_view.resizeColumnsToContents()
 
     def _start_import_button_clicked(self):
-        ret = QMessageBox.warning(self, "Warning", "Next step will apply changes to AD.\nPlease verify correct destination OU and confirm user import.",
-                                   buttons=QMessageBox.StandardButton.Ok | QMessageBox.StandardButton.Cancel)
+        ret = QMessageBox.warning(self, "Warning",
+                                  "Next step will apply changes to AD.\nPlease verify correct destination OU and confirm user import.",
+                                  buttons=QMessageBox.StandardButton.Ok | QMessageBox.StandardButton.Cancel)
         if ret == QMessageBox.StandardButton.Ok:
-            import_data = get_excel_data(self.source_file, has_headers=True)['data']
+            self._save_ad_settings()
+            import_data = get_excel_data(self.source_file, has_headers=True)
             import_data = build_import_data(import_data, self.upn_suffix)
-            # TODO: create module for import AD users
+            print(import_data)
+            import_ad_users(self.ad_server, self.destination_ou, self.ad_user, self.ad_password, self.protocol, import_data)
         else:
             pass
 
@@ -170,10 +178,7 @@ class MainWindow(Ui_main_window, QMainWindow):
         try:
             with open(APP_SETTINGS, 'rb') as fp:
                 app_settings = pickle.load(fp)
-                self.result_folder = app_settings['result_folder']
-                self.result_file_name = app_settings['result_file_name']
                 self.log_folder = app_settings['log_folder']
-                self.log_file_name = app_settings['log_file_name']
                 self.keep_settings = app_settings['keep_settings']
                 self.protocol = app_settings['protocol']
         except:
@@ -181,4 +186,3 @@ class MainWindow(Ui_main_window, QMainWindow):
 
     def _result_file_path_updated(self, text):
         self.result_file_line_edit.setText(text)
-
