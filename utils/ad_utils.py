@@ -92,6 +92,7 @@ def import_ad_users(
         password=password,
         ssl=protocol == 'LDAPS'
     )
+    errors = 0
     result_data = deepcopy(data)
     domain = '.'.join(ad_server.split('.')[1:])
     target_ou = get_destination_user_ou(destination_ou, domain)
@@ -101,6 +102,8 @@ def import_ad_users(
             result_data[i]['done'] = 'Y'
             result_data[i]['errors'] = 'None'
         except Exception as e:
+            errors += 1
             result_data[i]['done'] = 'N'
             result_data[i]['errors'] = str(e)
     write_excel_data(result_path, result_data)
+    return errors

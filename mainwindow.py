@@ -126,10 +126,14 @@ class MainWindow(Ui_main_window, QMainWindow):
             import_data = get_excel_data(self.source_file, has_headers=True)
             import_data = build_import_data(import_data, self.upn_suffix)
             try:
-                import_ad_users(self.ad_server, self.destination_ou, self.ad_user, self.ad_password, self.protocol, import_data, self.result_file_name)
-                QMessageBox.information(self, 'Success', 'Import completed.', buttons=QMessageBox.StandardButton.Ok)
+                res = import_ad_users(self.ad_server, self.destination_ou, self.ad_user, self.ad_password, self.protocol, import_data, self.result_file_name)
             except Exception as e:
                 QMessageBox.critical(self, 'Errors during import', f'During import following error occurred: {e}. \nPlease check log file {self.log_file_name} for details.', buttons=QMessageBox.StandardButton.Ok)
+            else:
+                if res == 0:
+                    QMessageBox.information(self, 'Success', 'Import completed.', buttons=QMessageBox.StandardButton.Ok)
+                else:
+                    QMessageBox.warning(self, 'Warining', f'{res} problems occurred during import. \nPlease check results file and logs for details.', buttons=QMessageBox.StandardButton.Ok)
         else:
             pass
 
