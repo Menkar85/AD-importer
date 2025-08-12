@@ -125,8 +125,11 @@ class MainWindow(Ui_main_window, QMainWindow):
             self._save_ad_settings()
             import_data = get_excel_data(self.source_file, has_headers=True)
             import_data = build_import_data(import_data, self.upn_suffix)
-            print(import_data)
-            import_ad_users(self.ad_server, self.destination_ou, self.ad_user, self.ad_password, self.protocol, import_data, self.result_file_name)
+            try:
+                import_ad_users(self.ad_server, self.destination_ou, self.ad_user, self.ad_password, self.protocol, import_data, self.result_file_name)
+                QMessageBox.information(self, 'Success', 'Import completed.', buttons=QMessageBox.StandardButton.Ok)
+            except Exception as e:
+                QMessageBox.critical(self, 'Errors during import', f'During import following error occurred: {e}. \nPlease check log file {self.log_file_name} for details.', buttons=QMessageBox.StandardButton.Ok)
         else:
             pass
 
