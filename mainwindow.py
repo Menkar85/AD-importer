@@ -126,7 +126,7 @@ class MainWindow(Ui_main_window, QMainWindow):
             import_data = get_excel_data(self.source_file, has_headers=True)
             import_data = build_import_data(import_data, self.upn_suffix)
             print(import_data)
-            import_ad_users(self.ad_server, self.destination_ou, self.ad_user, self.ad_password, self.protocol, import_data)
+            import_ad_users(self.ad_server, self.destination_ou, self.ad_user, self.ad_password, self.protocol, import_data, self.result_file_name)
         else:
             pass
 
