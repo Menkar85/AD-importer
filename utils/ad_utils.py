@@ -102,5 +102,5 @@ def import_ad_users(
             result_data[i]['errors'] = 'None'
         except Exception as e:
             result_data[i]['done'] = 'N'
-            result_data[i]['errors'] = e
+            result_data[i]['errors'] = str(e)
     write_excel_data(result_path, result_data)
