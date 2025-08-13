@@ -108,14 +108,7 @@ class MainWindow(Ui_main_window, QMainWindow):
         self._result_file_path_updated(self.result_file_name)
 
     def _preview_button_clicked(self):
-        preview_model = QStandardItemModel()
-        source = get_excel_data(self.source_file, has_headers=True)
-        preview_model.setHorizontalHeaderLabels([str(header) for header in source['headers']])
-        for row_data in source['data']:
-            items = [QStandardItem(str(cell) if cell is not None else "") for cell in row_data]
-            preview_model.appendRow(items)
-        self.preview_table_view.setModel(preview_model)
-        self.preview_table_view.resizeColumnsToContents()
+        self._display_table_data(self.source_file)
 
     def _start_import_button_clicked(self):
         ret = QMessageBox.warning(self, "Warning",
@@ -133,7 +126,8 @@ class MainWindow(Ui_main_window, QMainWindow):
                 if res == 0:
                     QMessageBox.information(self, 'Success', 'Import completed.', buttons=QMessageBox.StandardButton.Ok)
                 else:
-                    QMessageBox.warning(self, 'Warining', f'{res} problems occurred during import. \nPlease check results file and logs for details.', buttons=QMessageBox.StandardButton.Ok)
+                    QMessageBox.warning(self, 'Warining', f'{res} problem(s) occurred during import. \nPlease check results file and logs for details.', buttons=QMessageBox.StandardButton.Ok)
+                self._display_table_data(self.result_file_name)
         else:
             pass
 
@@ -193,3 +187,14 @@ class MainWindow(Ui_main_window, QMainWindow):
 
     def _result_file_path_updated(self, text):
         self.result_file_line_edit.setText(text)
+
+
+    def _display_table_data(self, result_path):
+        preview_model = QStandardItemModel()
+        source = get_excel_data(result_path, has_headers=True)
+        preview_model.setHorizontalHeaderLabels([str(header) for header in source['headers']])
+        for row_data in source['data']:
+            items = [QStandardItem(str(cell) if cell is not None else "") for cell in row_data]
+            preview_model.appendRow(items)
+        self.preview_table_view.setModel(preview_model)
+        self.preview_table_view.resizeColumnsToContents()
