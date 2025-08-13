@@ -2,6 +2,9 @@ from PySide6.QtWidgets import QMainWindow, QMessageBox, QFileDialog
 from PySide6.QtGui import QStandardItem, QStandardItemModel
 import pickle
 import socket
+import logging
+import shutil
+import tempfile
 from datetime import datetime
 from ui_mainwindow import Ui_main_window
 from settings import SettingsWidget
@@ -9,6 +12,7 @@ from settings import APP_SETTINGS, AD_SETTINGS, VERSION
 from utils.xlsxutils import get_excel_data, build_import_data
 from utils.ad_utils import import_ad_users
 
+logger = logging.getLogger(__name__)
 
 class MainWindow(Ui_main_window, QMainWindow):
     def __init__(self, app):
@@ -69,9 +73,9 @@ class MainWindow(Ui_main_window, QMainWindow):
 
     # slots
     def settings_open(self):
-        print("settings triggered")
         self.settings_window = SettingsWidget(self)
         self.settings_window.show()
+        logger.info('Settings window opened.')
 
     def quit(self):
         self.app.quit()
@@ -95,16 +99,19 @@ class MainWindow(Ui_main_window, QMainWindow):
         try:
             socket.gethostbyname(self.ad_server)
             QMessageBox.information(self, "Success", 'Server name successfully validated.')
+            logger.debug(f"{self.ad_server} name dns was detected.")
         except socket.gaierror:
             QMessageBox.critical(self, "Error", "Server not found! Please check server name or that PC is in domain.")
 
     def _browse_button_clicked(self):
         file, used_filter = QFileDialog.getOpenFileName(filter='Excel files (*.xlsx *.xls)')
         self.source_file = file
+        logger.debug(f"Get source data from {file}")
         self.source_file_line_edit.setText(file)
 
     def _result_save_as_button_clicked(self):
         self.result_file_name, used_filter = QFileDialog.getSaveFileName(self, filter="Excel files (*.xlsx)")
+        logger.debug(f"File name for saving results is {self.result_file_name}")
         self._result_file_path_updated(self.result_file_name)
 
     def _preview_button_clicked(self):
@@ -115,19 +122,32 @@ class MainWindow(Ui_main_window, QMainWindow):
                                   "Next step will apply changes to AD.\nPlease verify correct destination OU and confirm user import.",
                                   buttons=QMessageBox.StandardButton.Ok | QMessageBox.StandardButton.Cancel)
         if ret == QMessageBox.StandardButton.Ok:
-            self._save_ad_settings()
+            logger.info("Starting users import...")
+            if self.keep_settings:
+                self._save_ad_settings()
             import_data = get_excel_data(self.source_file, has_headers=True)
+            logger.info(f"Got data from {self.source_file}")
             import_data = build_import_data(import_data, self.upn_suffix)
+            logger.debug(f"Built import data from {self.source_file}")
             try:
                 res = import_ad_users(self.ad_server, self.destination_ou, self.ad_user, self.ad_password, self.protocol, import_data, self.result_file_name)
             except Exception as e:
+                logger.critical(f"Critical error occurred during import {e}")
                 QMessageBox.critical(self, 'Errors during import', f'During import following error occurred: {e}. \nPlease check log file {self.log_file_name} for details.', buttons=QMessageBox.StandardButton.Ok)
             else:
                 if res == 0:
+                    logger.info("Import completed successfully.")
                     QMessageBox.information(self, 'Success', 'Import completed.', buttons=QMessageBox.StandardButton.Ok)
                 else:
-                    QMessageBox.warning(self, 'Warining', f'{res} problem(s) occurred during import. \nPlease check results file and logs for details.', buttons=QMessageBox.StandardButton.Ok)
+                    logger.warning(f"Totally {res} problem(s) occurred during import")
+                    QMessageBox.warning(self, 'Warning', f'{res} problem(s) occurred during import. \nPlease check results file and logs for details.', buttons=QMessageBox.StandardButton.Ok)
                 self._display_table_data(self.result_file_name)
+            finally:
+                source_file = tempfile.gettempdir() + self.log_file_name
+                try:
+                    shutil.move(source_file, self.log_folder)
+                except:
+                    pass
         else:
             pass
 
@@ -162,6 +182,7 @@ class MainWindow(Ui_main_window, QMainWindow):
         }
         with open(AD_SETTINGS, 'wb') as fp:
             pickle.dump(ad_settings, fp)
+        logging.debug('AD settings saved successfully')
 
     def _retrieve_ad_settings(self):
         try:
@@ -182,7 +203,9 @@ class MainWindow(Ui_main_window, QMainWindow):
                 self.log_folder = app_settings['log_folder']
                 self.keep_settings = app_settings['keep_settings']
                 self.protocol = app_settings['protocol']
-        except:
+                logger.debug("App settings retrieved successfully")
+        except Exception as e:
+            logger.warning(f"App settings were not retrieved due to {e}")
             pass
 
     def _result_file_path_updated(self, text):
