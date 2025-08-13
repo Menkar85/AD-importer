@@ -20,7 +20,6 @@ A lightweight PySide6 desktop tool to import many users into Active Directory fr
 ### Prerequisites
 
 - Windows with network access to your AD domain
-- Python 3.10+ (3.11/3.12 OK)
 - Account with permissions to create users and OUs
 - If using LDAPS, a properly configured AD certificate
 
