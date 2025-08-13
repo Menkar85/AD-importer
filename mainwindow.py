@@ -34,7 +34,7 @@ class MainWindow(Ui_main_window, QMainWindow):
         # settings init
         self.result_file_name = None
         self.log_folder = None
-        self.log_file_name = f"result_{datetime.now().strftime('%Y_%m_%d_%H_%M')}"
+        self.log_file_name = f"log_{datetime.now().strftime('%Y_%m_%d_%H_%M')}.txt"
         self.keep_settings = True
         self.protocol = "LDAP"
 
