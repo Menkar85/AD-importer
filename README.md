@@ -29,7 +29,7 @@ A lightweight PySide6 desktop tool to import many users into Active Directory fr
 1) Clone and enter the project
 
 ```powershell
-git clone https://github.com/<your-org-or-user>/AD-importer.git
+git clone https://github.com/menkar85/AD-importer.git
 cd AD-importer
 ```
 
