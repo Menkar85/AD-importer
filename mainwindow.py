@@ -5,6 +5,7 @@ import socket
 import logging
 import shutil
 import tempfile
+import os
 from datetime import datetime
 from ui_mainwindow import Ui_main_window
 from settings import SettingsWidget
@@ -13,6 +14,7 @@ from utils.xlsxutils import get_excel_data, build_import_data
 from utils.ad_utils import import_ad_users
 
 logger = logging.getLogger(__name__)
+
 
 class MainWindow(Ui_main_window, QMainWindow):
     def __init__(self, app):
@@ -30,7 +32,6 @@ class MainWindow(Ui_main_window, QMainWindow):
         self.destination_ou = None
         self.source_file = None
 
-
         # settings init
         self.result_file_name = None
         self.log_folder = None
@@ -46,8 +47,6 @@ class MainWindow(Ui_main_window, QMainWindow):
             self.username_line_edit.setText(self.ad_user)
             self.upn_suffix_line_edit.setText(self.upn_suffix)
             self.destination_ou_line_edit.setText(self.destination_ou)
-
-
 
         # menubar
         self.actionSettings.triggered.connect(self.settings_open)
@@ -130,21 +129,27 @@ class MainWindow(Ui_main_window, QMainWindow):
             import_data = build_import_data(import_data, self.upn_suffix)
             logger.debug(f"Built import data from {self.source_file}")
             try:
-                res = import_ad_users(self.ad_server, self.destination_ou, self.ad_user, self.ad_password, self.protocol, import_data, self.result_file_name)
+                res = import_ad_users(self.ad_server, self.destination_ou, self.ad_user, self.ad_password,
+                                      self.protocol, import_data, self.result_file_name)
             except Exception as e:
                 logger.critical(f"Critical error occurred during import {e}")
-                QMessageBox.critical(self, 'Errors during import', f'During import following error occurred: {e}. \nPlease check log file {self.log_file_name} for details.', buttons=QMessageBox.StandardButton.Ok)
+                QMessageBox.critical(self, 'Errors during import',
+                                     f'During import following error occurred: {e}. \nPlease check log file {self.log_file_name} for details.',
+                                     buttons=QMessageBox.StandardButton.Ok)
             else:
                 if res == 0:
                     logger.info("Import completed successfully.")
                     QMessageBox.information(self, 'Success', 'Import completed.', buttons=QMessageBox.StandardButton.Ok)
                 else:
                     logger.warning(f"Totally {res} problem(s) occurred during import")
-                    QMessageBox.warning(self, 'Warning', f'{res} problem(s) occurred during import. \nPlease check results file and logs for details.', buttons=QMessageBox.StandardButton.Ok)
+                    QMessageBox.warning(self, 'Warning',
+                                        f'{res} problem(s) occurred during import. \nPlease check results file and logs for details.',
+                                        buttons=QMessageBox.StandardButton.Ok)
                 self._display_table_data(self.result_file_name)
             finally:
-                source_file = tempfile.gettempdir() + self.log_file_name
+                source_file = os.path.join(tempfile.gettempdir(), self.log_file_name)
                 try:
+                    logging.shutdown()
                     shutil.move(source_file, self.log_folder)
                 except:
                     pass
@@ -210,7 +215,6 @@ class MainWindow(Ui_main_window, QMainWindow):
 
     def _result_file_path_updated(self, text):
         self.result_file_line_edit.setText(text)
-
 
     def _display_table_data(self, result_path):
         preview_model = QStandardItemModel()
