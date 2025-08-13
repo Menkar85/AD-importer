@@ -7,7 +7,7 @@
 
 A lightweight PySide6 desktop tool to import many users into Active Directory from an Excel file. It previews your data, creates missing OUs, and writes a result workbook showing per-user status and errors.
 
-### Features
+### Features-
 
 - **GUI workflow**: Simple PySide6 interface; no need for PowerShell scripting
 - **Excel import**: Reads XLSX; ready-to-use template included (`Import template.xlsx`)
@@ -26,31 +26,10 @@ A lightweight PySide6 desktop tool to import many users into Active Directory fr
 
 ### Installation
 
-1) Clone and enter the project
-
-```powershell
-git clone https://github.com/menkar85/AD-importer.git
-cd AD-importer
-```
-
-2) Create and activate a virtual environment (recommended)
-
-```powershell
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-```
-
-3) Install dependencies
-
-```powershell
-pip install -r requirements.txt
-```
-
-### Running
-
-```powershell
-python main.py
-```
+1) Download Zip-archive from the release section
+2) Unzip into destination folder
+3) Start application with ad-importer.exe file
+4) Follow **usage** section below
 
 ### Usage
 
