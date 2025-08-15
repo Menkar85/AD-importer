@@ -1,5 +1,5 @@
 from PySide6.QtCore import QTranslator, QLocale, QLibraryInfo
-
+import resource_rc
 
 class I18nManager:
     def __init__(self, app):
@@ -21,7 +21,7 @@ class I18nManager:
     def load_translations(self, lang_code):
         self.app.removeTranslator(self.translator)
 
-        qm_file = f"translations/i18n_{lang_code}.qm"
+        qm_file = f":/translations/i18n_{lang_code}.qm"
         if self.translator.load(qm_file):
             self.app.installTranslator(self.translator)
             return True
