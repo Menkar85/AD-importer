@@ -12,7 +12,18 @@ if not os.path.exists(os.path.dirname(APP_SETTINGS)):
 
 
 class SettingsWidget(Ui_SettingsWidget, QWidget):
+    """Settings widget for configuring application preferences.
+    
+    This widget allows users to configure logging settings, protocol preferences,
+    and whether to persist settings between sessions.
+    """
+    
     def __init__(self, parent):
+        """Initialize the settings widget.
+        
+        Args:
+            parent: The parent widget that owns this settings widget.
+        """
         super().__init__()
         self.setupUi(self)
         self.setWindowTitle("Settings")
@@ -39,15 +50,29 @@ class SettingsWidget(Ui_SettingsWidget, QWidget):
 
     # slots
     def _log_browse_button_clicked(self):
+        """Handle log folder browse button click event.
+        
+        Opens a directory dialog to select the log folder location.
+        Updates the log folder path in the UI and instance attribute.
+        """
         directory = QFileDialog.getExistingDirectory()
         self.log_folder = directory
         self.log_folder_line_edit.setText(directory)
 
     def _ok_button_clicked(self):
+        """Handle OK button click event.
+        
+        Applies the current settings and closes the settings window.
+        """
         self._apply_button_clicked()
         self._cancel_button_clicked()
 
     def _apply_button_clicked(self):
+        """Handle apply button click event.
+        
+        Saves the current settings to file and updates the parent widget
+        with the new configuration values.
+        """
         app_settings = {
             'log_folder': self.log_folder,
             'keep_settings': self.keep_settings,
@@ -60,10 +85,22 @@ class SettingsWidget(Ui_SettingsWidget, QWidget):
             setattr(self.parent, attr, value)
 
     def _cancel_button_clicked(self):
+        """Handle cancel button click event.
+        
+        Destroys the settings window without saving changes.
+        """
         self.destroy()
 
     def _protocol_changed(self):
+        """Handle protocol combo box change event.
+        
+        Updates the protocol attribute when a new protocol is selected.
+        """
         self.protocol = self.protocol_combo_box.currentText()
 
     def _keep_settings_checked(self):
+        """Handle keep settings checkbox change event.
+        
+        Updates the keep_settings attribute when the checkbox state changes.
+        """
         self.keep_settings = self.keep_settings_checkbox.isChecked()

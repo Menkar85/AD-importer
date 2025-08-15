@@ -11,14 +11,13 @@ TARGET = None
 logger = logging.getLogger(__name__)
 
 def is_user_exists(cn):
-    """
-    Define whether a user exists in the Active Directory.
+    """Check if a user exists in the Active Directory.
+    
     Args:
-        cn(str): Username to check.
+        cn (str): Username to check.
 
     Returns:
-        bool: True if the user exists in the Active Directory.
-
+        bool: True if the user exists in the Active Directory, False otherwise.
     """
     try:
         aduser.ADUser.from_cn(cn)
@@ -28,6 +27,19 @@ def is_user_exists(cn):
 
 
 def get_or_create_ou(ou_name, parent_dn):
+    """Get an existing OU or create it if it doesn't exist.
+    
+    Args:
+        ou_name (str): Name of the organizational unit to find or create.
+        parent_dn (str): Distinguished name of the parent container.
+        
+    Returns:
+        ADContainer: The found or newly created organizational unit.
+        
+    Note:
+        This function uses global variables FIRST_RUN and TARGET to track
+        the first run and target OU name for logging purposes.
+    """
     global FIRST_RUN
     try:
         ou = adcontainer.ADContainer.from_dn(f'OU={ou_name},{parent_dn}')
@@ -43,6 +55,20 @@ def get_or_create_ou(ou_name, parent_dn):
 
 
 def get_destination_user_ou(destination_ou, domain):
+    """Get or create the destination organizational unit for users.
+    
+    Parses the destination OU path and creates any missing OUs in the hierarchy.
+    
+    Args:
+        destination_ou (str): Path to the destination OU (e.g., "OU1/OU2/OU3").
+        domain (str): Domain name (e.g., "example.com").
+        
+    Returns:
+        ADContainer: The destination organizational unit where users will be created.
+        
+    Note:
+        This function uses global variable TARGET to track the target OU name.
+    """
     global TARGET
     ou_list = [value for value in destination_ou.split("/") if value]
     parent_dn = f"DC={',DC='.join(domain.split('.'))}"
@@ -59,6 +85,31 @@ def get_destination_user_ou(destination_ou, domain):
 
 
 def create_ad_user(ou, data):
+    """Create a new user in Active Directory.
+    
+    Creates a new AD user with the specified attributes and settings.
+    Checks for duplicate usernames and handles errors appropriately.
+    
+    Args:
+        ou (ADContainer): The organizational unit where the user will be created.
+        data (dict): Dictionary containing user attributes including:
+            - cn: Common name (username)
+            - displayName: Display name
+            - userPrincipalName: User principal name
+            - givenName: First name
+            - sn: Surname
+            - mail: Email address
+            - telephoneNumber: Phone number
+            - password: Initial password
+            
+    Raises:
+        ValueError: If a duplicate username is detected on the first run.
+        Exception: Any other error that occurs during user creation.
+        
+    Note:
+        This function uses global variable FIRST_RUN to track duplicate detection
+        and force password change on first login for new users.
+    """
     try:
         if is_user_exists(data['cn']):
             if FIRST_RUN:
@@ -92,6 +143,28 @@ def import_ad_users(
         data,
         result_path
 ):
+    """Import multiple users into Active Directory.
+    
+    Main function that orchestrates the bulk import of users into AD.
+    Sets up AD connection, processes user data, creates users, and logs results.
+    
+    Args:
+        ad_server (str): Active Directory server hostname or IP address.
+        destination_ou (str): Path to the destination organizational unit.
+        username (str): AD username for authentication.
+        password (str): AD password for authentication.
+        protocol (str): Connection protocol ('LDAP' or 'LDAPS').
+        data (list): List of dictionaries containing user data to import.
+        result_path (str): Path where the results Excel file will be saved.
+        
+    Returns:
+        int: Number of errors that occurred during the import process.
+        
+    Note:
+        This function processes each user in the data list, creates them in AD,
+        and tracks success/failure for each operation. Results are written to
+        an Excel file with status information for each user.
+    """
     set_defaults(
         ldap_server=ad_server,
         username=username,
