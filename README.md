@@ -3,7 +3,7 @@
 [![Python](https://img.shields.io/badge/Python-3.10+-blue.svg)](https://www.python.org/downloads/)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-green.svg)](LICENSE)
 [![GitHub stars](https://img.shields.io/github/stars/menkar85/AD-importer)](https://github.com/menkar85/AD-importer/stargazers)
-[![Version](https://img.shields.io/badge/version-0.0.1-green.svg)](https://github.com/menkar85/AD-importer/releases)
+[![Version](https://img.shields.io/badge/version-0.0.2-green.svg)](https://github.com/menkar85/AD-importer/releases)
 
 A lightweight PySide6 desktop tool to import many users into Active Directory from an Excel file. It previews your data, creates missing OUs, and writes a result workbook showing per-user status and errors.
 

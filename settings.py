@@ -3,7 +3,7 @@ import pickle
 import os
 from ui_settings import Ui_SettingsWidget
 
-VERSION = "0.0.1-alpha"
+VERSION = "0.0.2"
 AD_SETTINGS = './data/ad.pkl'
 APP_SETTINGS = './data/app.pkl'
 
