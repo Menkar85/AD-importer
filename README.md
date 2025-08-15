@@ -3,7 +3,7 @@
 [![Python](https://img.shields.io/badge/Python-3.10+-blue.svg)](https://www.python.org/downloads/)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-green.svg)](LICENSE)
 [![GitHub stars](https://img.shields.io/github/stars/menkar85/AD-importer)](https://github.com/menkar85/AD-importer/stargazers)
-[![Version](https://img.shields.io/badge/version-0.0.2-green.svg)](https://github.com/menkar85/AD-importer/releases)
+[![Version](https://img.shields.io/badge/version-0.1.0-green.svg)](https://github.com/menkar85/AD-importer/releases)
 
 A lightweight PySide6 desktop application for batch user creation in Active Directory. Import users from Excel files with automatic OU creation, username transliteration (Russian→English), and comprehensive result reporting.
 
@@ -16,6 +16,8 @@ A lightweight PySide6 desktop application for batch user creation in Active Dire
 - **Detailed Results**: Export comprehensive XLSX with success/failure status and error messages
 - **Flexible Protocols**: Support for both LDAP and LDAPS connections
 - **Persistent Settings**: Save and reuse Active Directory configuration between sessions
+- **Multi-language UI**: English and Russian; switch via menu and restart the app to apply
+- **Password Policy**: New users are set to change password at first login automatically
 
 ## 📋 Prerequisites
 
@@ -42,7 +44,10 @@ cd AD-importer
 
 # Create and activate virtual environment
 python -m venv .venv
-source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+# Windows (PowerShell)
+.venv\Scripts\Activate.ps1
+# Windows (cmd)
+.venv\Scripts\activate.bat
 
 # Install dependencies
 pip install -r requirements.txt
@@ -93,13 +98,20 @@ python main.py
 
 ## ⚙️ Settings
 
-Access settings via the menu: `Settings → Settings`
+Access settings from the application menu.
 
 ### Available Options
 
 - **Log Folder**: Configure directory for application logs
 - **Persistent AD Config**: Save Active Directory settings between application sessions
 - **Connection Protocol**: Choose between LDAP and LDAPS for AD communication
+
+## 🌐 Localization
+
+- The UI supports English and Russian.
+- Switch language from the menu bar (English/Russian actions).
+- A restart is required to apply the language change.
+- Translation files live in `translations/` (e.g., `i18n_en.qm`, `i18n_ru.qm`).
 
 ## 📊 Excel Template Format
 
@@ -157,15 +169,17 @@ The application automatically creates any missing OUs in the specified path hier
 
 After processing completes, a results XLSX file is generated at your specified location containing:
 
-- **Original Data**: All columns from your source Excel file
-- **Generated Fields**: Automatically created AD attributes
+- **Source Fields**: Given name, Family Name, Password, Phone number, Description
+- **Generated Fields**: `cn`, `displayName`, `userPrincipalName`, `mail`, plus other computed attributes
 - **Status Columns**:
   - `done`: `Y` for successful creation, `N` for failed creation
   - `errors`: Detailed error message if creation failed
+  
+Note: The results file includes the Password column. Handle and store it securely.
 
 ### Duplicate Account Handling
 
-The application detects and reports existing accounts. Check the `errors` column in the result file for specific details about failed imports, including information about duplicate accounts.
+The application identifies and reports any accounts that already exist. For details on failed imports, including duplicate accounts, refer to the `errors` column in the result file. To ensure idempotency, accounts found in the target OU are treated as already present during import. For accurate duplicate tracking, it is recommended to use a new, non-existent OU on the first import run.
 
 ### Example Result
 
@@ -189,7 +203,9 @@ AD-importer/
 ├── utils/
 │   ├── __init__.py            # Package initialization
 │   ├── ad_utils.py            # Active Directory operations (pyad integration)
+│   ├── i18n_manager.py        # Application translations loader
 │   └── xlsxutils.py           # Excel file processing utilities
+├── translations/              # Qt translation files (i18n_en.qm, i18n_ru.qm)
 ├── Import template.xlsx       # Ready-to-use template for input data
 ├── LICENSE                    # GPL-3.0 license file
 ├── requirements.txt           # Python dependencies
@@ -238,6 +254,7 @@ AD-importer/
 - **Clear passwords from memory** after authentication
 - **Store logs securely** with access controls
 - **Test in isolated environments** before production use
+- **Treat results XLSX as sensitive** since it contains initial passwords; delete or secure it after use
 
 ### Operational Security
 
