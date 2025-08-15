@@ -1,14 +1,19 @@
 import openpyxl
 from openpyxl.styles import Font, Alignment
 import transliterate
+import logging
 
+logger = logging.getLogger(__name__)
 
 def get_excel_data(path, *, has_headers=True) -> dict:
     try:
         wb = openpyxl.load_workbook(path)
+        logger.debug(f"Workbook {path} loaded.")
         sheet = wb.active
     except Exception as e:
-        return {'error': e}
+        logger.critical(f"Unable to load workbook")
+        raise e
+
 
     if has_headers and sheet.max_row > 0:
         headers = next(sheet.iter_rows(min_row=1, values_only=True))
@@ -29,6 +34,7 @@ def build_import_data(input_dict, upn, mail_domain=None) -> list[dict]:
     user_data = []
     if not mail_domain:
         mail_domain = upn
+    logger.debug(f'Mail_domain = {mail_domain}')
     for row in input_dict['data']:
         if row[1] is not None:
             translit_name = str(transliterate.translit(row[1], language_code='ru', reversed=True))
