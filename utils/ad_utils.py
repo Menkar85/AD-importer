@@ -58,7 +58,7 @@ def get_destination_user_ou(destination_ou, domain):
     return user_destination_ou
 
 
-def create_ad_user(ou, data, **kwargs):
+def create_ad_user(ou, data):
     try:
         if is_user_exists(data['cn']):
             if FIRST_RUN:
