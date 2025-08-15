@@ -34,6 +34,7 @@ class MainWindow(Ui_main_window, QMainWindow):
         self.setWindowTitle(f"AD user import tool v.{VERSION}")
         self.app = app
         self.settings_window = None
+        self.lang_code = None
 
         # data init
         self.ad_server = None
@@ -108,19 +109,19 @@ class MainWindow(Ui_main_window, QMainWindow):
 
     def switch_english(self):
         """Switch application language to English.
-
-        TODO: Implement internationalization functionality.
         """
-        # TODO: Realize i18n
-        print("english selected")
+        self.lang_code = 'en'
+        with open('data/lang.pkl', 'wb') as fp:
+            pickle.dump({'lang_code': 'en'}, fp)
+        QMessageBox.information(self, "Information", "Please restart app for language change.")
 
     def switch_russian(self):
         """Switch application language to Russian.
-
-        TODO: Implement internationalization functionality.
         """
-        # TODO: Realize i18n
-        print("russian selected")
+        self.lang_code = 'ru'
+        with open('data/lang.pkl', 'wb') as fp:
+            pickle.dump({'lang_code': 'ru'}, fp)
+        QMessageBox.information(self, "Информация", "Перезагрузите приложение для того, чтобы сменить язык.")
 
     def about(self):
         """Display about dialog.
@@ -128,7 +129,7 @@ class MainWindow(Ui_main_window, QMainWindow):
         Shows an information dialog with software description.
         """
         QMessageBox.information(
-            self, "About", "Software for batch import of users into Active Directory."
+            self, self.tr("About"), self.tr("Software for batch import of users into Active Directory.")
         )
 
     def about_qt(self):
@@ -148,14 +149,14 @@ class MainWindow(Ui_main_window, QMainWindow):
         try:
             socket.gethostbyname(self.ad_server)
             QMessageBox.information(
-                self, "Success", "Server name successfully validated."
+                self, self.tr("Success"), self.tr("Server name successfully validated.")
             )
             logger.debug(f"{self.ad_server} name dns was detected.")
         except socket.gaierror:
             QMessageBox.critical(
                 self,
-                "Error",
-                "Server not found! Please check server name or that PC is in domain.",
+                self.tr("Error"),
+                self.tr("Server not found! Please check server name or that PC is in domain."),
             )
 
     def _browse_button_clicked(self):
@@ -165,7 +166,7 @@ class MainWindow(Ui_main_window, QMainWindow):
         Updates the source file path in the UI.
         """
         file, used_filter = QFileDialog.getOpenFileName(
-            filter="Excel files (*.xlsx *.xls)"
+            filter=self.tr("Excel files (*.xlsx *.xls)")
         )
         self.source_file = file
         logger.debug(f"Get source data from {file}")
@@ -178,7 +179,7 @@ class MainWindow(Ui_main_window, QMainWindow):
         Updates the result file path in the UI.
         """
         self.result_file_name, used_filter = QFileDialog.getSaveFileName(
-            self, filter="Excel files (*.xlsx)"
+            self, filter=self.tr("Excel files (*.xlsx)")
         )
         logger.debug(f"File name for saving results is {self.result_file_name}")
         self._result_file_path_updated(self.result_file_name)
@@ -198,8 +199,9 @@ class MainWindow(Ui_main_window, QMainWindow):
         """
         ret = QMessageBox.warning(
             self,
-            "Warning",
-            "Next step will apply changes to AD.\nPlease verify correct destination OU and confirm user import.",
+            self.tr("Warning"),
+            self.tr(
+                "Next step will apply changes to AD.\nPlease verify correct destination OU and confirm user import."),
             buttons=QMessageBox.StandardButton.Ok | QMessageBox.StandardButton.Cancel,
         )
         if ret == QMessageBox.StandardButton.Ok:
@@ -225,7 +227,7 @@ class MainWindow(Ui_main_window, QMainWindow):
                 QMessageBox.critical(
                     self,
                     "Errors during import",
-                    f"During import following error occurred: {e}. \nPlease check log file {self.log_file_name} for details.",
+                    f"{self.tr('During import following error occurred:')} {e}. \n{self.tr('Please check log file')} {self.log_file_name} {self.tr('for details.')}",
                     buttons=QMessageBox.StandardButton.Ok,
                 )
             else:
@@ -233,16 +235,16 @@ class MainWindow(Ui_main_window, QMainWindow):
                     logger.info("Import completed successfully.")
                     QMessageBox.information(
                         self,
-                        "Success",
-                        "Import completed.",
+                        self.tr("Success"),
+                        self.tr("Import completed."),
                         buttons=QMessageBox.StandardButton.Ok,
                     )
                 else:
                     logger.warning(f"Totally {res} problem(s) occurred during import")
                     QMessageBox.warning(
                         self,
-                        "Warning",
-                        f"{res} problem(s) occurred during import. \nPlease check results file and logs for details.",
+                        self.tr("Warning"),
+                        f"{res} {self.tr('problem(s) occurred during import. \nPlease check results file and logs for details.')}",
                         buttons=QMessageBox.StandardButton.Ok,
                     )
                 self._display_table_data(self.result_file_name)
@@ -263,8 +265,8 @@ class MainWindow(Ui_main_window, QMainWindow):
         """
         ret = QMessageBox.question(
             self,
-            "Confirmation",
-            "Do you really want to quit?",
+            self.tr("Confirmation"),
+            self.tr("Do you really want to quit?"),
             buttons=QMessageBox.StandardButton.Ok | QMessageBox.StandardButton.Cancel,
         )
         if ret == QMessageBox.StandardButton.Ok:

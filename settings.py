@@ -17,7 +17,7 @@ class SettingsWidget(Ui_SettingsWidget, QWidget):
     This widget allows users to configure logging settings, protocol preferences,
     and whether to persist settings between sessions.
     """
-    
+
     def __init__(self, parent):
         """Initialize the settings widget.
         
@@ -26,7 +26,7 @@ class SettingsWidget(Ui_SettingsWidget, QWidget):
         """
         super().__init__()
         self.setupUi(self)
-        self.setWindowTitle("Settings")
+        self.setWindowTitle(self.tr("Settings"))
 
         # data init
         self.parent = parent

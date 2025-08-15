@@ -284,7 +284,7 @@ class Ui_main_window(object):
         self.menuSettings.setObjectName(u"menuSettings")
         self.menuLanguage = QMenu(self.menubar)
         self.menuLanguage.setObjectName(u"menuLanguage")
-        self.menuLanguage.setEnabled(False)
+        self.menuLanguage.setEnabled(True)
         self.menuAbout = QMenu(self.menubar)
         self.menuAbout.setObjectName(u"menuAbout")
         main_window.setMenuBar(self.menubar)
