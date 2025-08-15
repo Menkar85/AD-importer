@@ -6,4 +6,5 @@ releases
 dist
 build
 *.spec
+*.qrc
 *.ui
