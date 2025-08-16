@@ -1,12 +1,8 @@
 images/
-*.ui
 .idea/
 data
 releases
 dist
 build
 *.spec
-*.qrc
-*.ui
 *.pyc
-*.ts
