@@ -32,8 +32,7 @@
     <message>
         <location filename="../mainwindow.py" line="160"/>
         <source>Server not found! Please check server name or that PC is in domain.</source>
-        <translation>Сервер не найден! Пожалуйта проверьте правильность имени контроллера домена,
-убедитель, что компьютер подключен к домену и вход осуществлен пользователем домена.</translation>
+        <translation>Сервер не найден! Пожалуйта проверьте правильность имени контроллера домена. Убедитесь, что компьютер подключен к домену и вход осуществлен пользователем домена.</translation>
     </message>
     <message>
         <location filename="../mainwindow.py" line="171"/>
