@@ -3,7 +3,7 @@
 [![Python](https://img.shields.io/badge/Python-3.10+-blue.svg)](https://www.python.org/downloads/)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-green.svg)](LICENSE)
 [![GitHub stars](https://img.shields.io/github/stars/menkar85/AD-importer)](https://github.com/menkar85/AD-importer/stargazers)
-[![Version](https://img.shields.io/badge/version-0.1.0-green.svg)](https://github.com/menkar85/AD-importer/releases)
+[![Version](https://img.shields.io/badge/version-0.1.1-green.svg)](https://github.com/menkar85/AD-importer/releases)
 
 A lightweight PySide6 desktop application for batch user creation in Active Directory. Import users from Excel files with automatic OU creation, username transliteration (Russian→English), and comprehensive result reporting.
 

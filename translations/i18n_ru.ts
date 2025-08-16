@@ -4,54 +4,54 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../mainwindow.py" line="133"/>
+        <location filename="../mainwindow.py" line="132"/>
         <source>About</source>
         <translation>О приложении</translation>
     </message>
     <message>
-        <location filename="../mainwindow.py" line="134"/>
+        <location filename="../mainwindow.py" line="133"/>
         <source>Software for batch import of users into Active Directory.</source>
         <translation>Приложение для пакетного создания пользователей в Активной Директории из шаблона.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.py" line="153"/>
-        <location filename="../mainwindow.py" line="239"/>
+        <location filename="../mainwindow.py" line="152"/>
+        <location filename="../mainwindow.py" line="238"/>
         <source>Success</source>
         <translation>Успешно</translation>
     </message>
     <message>
-        <location filename="../mainwindow.py" line="154"/>
+        <location filename="../mainwindow.py" line="153"/>
         <source>Server name successfully validated.</source>
         <translation>Сервер найден.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.py" line="159"/>
+        <location filename="../mainwindow.py" line="158"/>
         <source>Error</source>
         <translation>Ошибка</translation>
     </message>
     <message>
-        <location filename="../mainwindow.py" line="160"/>
+        <location filename="../mainwindow.py" line="159"/>
         <source>Server not found! Please check server name or that PC is in domain.</source>
         <translation>Сервер не найден! Пожалуйта проверьте правильность имени контроллера домена. Убедитесь, что компьютер подключен к домену и вход осуществлен пользователем домена.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.py" line="171"/>
+        <location filename="../mainwindow.py" line="170"/>
         <source>Excel files (*.xlsx *.xls)</source>
         <translation>Файлы excel (*.xlsx *.xls)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.py" line="184"/>
+        <location filename="../mainwindow.py" line="183"/>
         <source>Excel files (*.xlsx)</source>
         <translation>Файлы excel (*.xlsx)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.py" line="203"/>
-        <location filename="../mainwindow.py" line="247"/>
+        <location filename="../mainwindow.py" line="202"/>
+        <location filename="../mainwindow.py" line="246"/>
         <source>Warning</source>
         <translation>Внимание</translation>
     </message>
     <message>
-        <location filename="../mainwindow.py" line="205"/>
+        <location filename="../mainwindow.py" line="204"/>
         <source>Next step will apply changes to AD.
 Please verify correct destination OU and confirm user import.</source>
         <translation>Следующий шаг применит изменения к Директории.
@@ -59,17 +59,24 @@ Please verify correct destination OU and confirm user import.</source>
 нажмите OK.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.py" line="240"/>
+        <location filename="../mainwindow.py" line="239"/>
         <source>Import completed.</source>
         <translation>Импорт завершен.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.py" line="269"/>
+        <location filename="../mainwindow.py" line="247"/>
+        <source>problem(s) occurred during import. 
+Please check results file and logs for details.</source>
+        <translation>ошибка(ок) возникло в процессе импорта.
+Пожалуйта проверьте файл результата и лог для более подробной информации.</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.py" line="268"/>
         <source>Confirmation</source>
         <translation>Подтверждение</translation>
     </message>
     <message>
-        <location filename="../mainwindow.py" line="270"/>
+        <location filename="../mainwindow.py" line="269"/>
         <source>Do you really want to quit?</source>
         <translation>Вы действительно хотите выйти?</translation>
     </message>

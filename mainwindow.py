@@ -244,7 +244,7 @@ class MainWindow(Ui_main_window, QMainWindow):
                     QMessageBox.warning(
                         self,
                         self.tr("Warning"),
-                        f"{res} {self.tr('problem(s) occurred during import. \nPlease check results file and logs for details.')}",
+                        f"{res} " + self.tr('problem(s) occurred during import. \nPlease check results file and logs for details.'),
                         buttons=QMessageBox.StandardButton.Ok,
                     )
                 self._display_table_data(self.result_file_name)

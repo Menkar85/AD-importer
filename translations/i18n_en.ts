@@ -4,71 +4,77 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../mainwindow.py" line="131"/>
+        <location filename="../mainwindow.py" line="132"/>
         <source>About</source>
         <translation>About</translation>
     </message>
     <message>
-        <location filename="../mainwindow.py" line="132"/>
+        <location filename="../mainwindow.py" line="133"/>
         <source>Software for batch import of users into Active Directory.</source>
         <translation>Software for batch import of users into Active Directory.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.py" line="151"/>
-        <location filename="../mainwindow.py" line="236"/>
+        <location filename="../mainwindow.py" line="152"/>
+        <location filename="../mainwindow.py" line="238"/>
         <source>Success</source>
         <translation>Success</translation>
     </message>
     <message>
-        <location filename="../mainwindow.py" line="152"/>
+        <location filename="../mainwindow.py" line="153"/>
         <source>Server name successfully validated.</source>
         <translation>Server name successfully validated.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.py" line="157"/>
+        <location filename="../mainwindow.py" line="158"/>
         <source>Error</source>
         <translation>Error</translation>
     </message>
     <message>
-        <location filename="../mainwindow.py" line="158"/>
+        <location filename="../mainwindow.py" line="159"/>
         <source>Server not found! Please check server name or that PC is in domain.</source>
         <translation>Server not found! Please check server name or that PC is in domain.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.py" line="169"/>
+        <location filename="../mainwindow.py" line="170"/>
         <source>Excel files (*.xlsx *.xls)</source>
         <translation>Excel files (*.xlsx *.xls)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.py" line="182"/>
+        <location filename="../mainwindow.py" line="183"/>
         <source>Excel files (*.xlsx)</source>
         <translation>Excel files (*.xlsx)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.py" line="201"/>
-        <location filename="../mainwindow.py" line="244"/>
+        <location filename="../mainwindow.py" line="202"/>
+        <location filename="../mainwindow.py" line="246"/>
         <source>Warning</source>
         <translation>Warning</translation>
     </message>
     <message>
-        <location filename="../mainwindow.py" line="202"/>
+        <location filename="../mainwindow.py" line="204"/>
         <source>Next step will apply changes to AD.
 Please verify correct destination OU and confirm user import.</source>
         <translation>Next step will apply changes to AD.
 Please verify correct destination OU and confirm user import.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.py" line="237"/>
+        <location filename="../mainwindow.py" line="239"/>
         <source>Import completed.</source>
         <translation>Import completed.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.py" line="266"/>
+        <location filename="../mainwindow.py" line="247"/>
+        <source>problem(s) occurred during import. 
+Please check results file and logs for details.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.py" line="268"/>
         <source>Confirmation</source>
         <translation>Confirmation</translation>
     </message>
     <message>
-        <location filename="../mainwindow.py" line="267"/>
+        <location filename="../mainwindow.py" line="269"/>
         <source>Do you really want to quit?</source>
         <translation>Do you really want to quit?</translation>
     </message>
