@@ -41,6 +41,7 @@ class MainWindow(Ui_main_window, QMainWindow):
         self.ad_user = None
         self.ad_password = None
         self.upn_suffix = None
+        self.email_domain = None
         self.destination_ou = None
         self.source_file = None
 
@@ -58,6 +59,7 @@ class MainWindow(Ui_main_window, QMainWindow):
             self.ad_server_line_edit.setText(self.ad_server)
             self.username_line_edit.setText(self.ad_user)
             self.upn_suffix_line_edit.setText(self.upn_suffix)
+            self.email_domain_line_edit.setText(self.email_domain)
             self.destination_ou_line_edit.setText(self.destination_ou)
 
         # menubar
@@ -85,6 +87,9 @@ class MainWindow(Ui_main_window, QMainWindow):
         )
         self.upn_suffix_line_edit.editingFinished.connect(
             self._upn_suffix_line_edit_finished
+        )
+        self.email_domain_line_edit.editingFinished.connect(
+            self._email_domain_line_edit_finished
         )
         self.destination_ou_line_edit.editingFinished.connect(
             self._destination_ou_line_edit_finished
@@ -166,7 +171,7 @@ class MainWindow(Ui_main_window, QMainWindow):
         Updates the source file path in the UI.
         """
         file, used_filter = QFileDialog.getOpenFileName(
-            filter=self.tr("Excel files (*.xlsx *.xls)")
+            filter=self.tr("Excel files (*.xlsx)")
         )
         self.source_file = file
         logger.debug(f"Get source data from {file}")
@@ -210,7 +215,7 @@ class MainWindow(Ui_main_window, QMainWindow):
                 self._save_ad_settings()
             import_data = get_excel_data(self.source_file, has_headers=True)
             logger.info(f"Got data from {self.source_file}")
-            import_data = build_import_data(import_data, self.upn_suffix)
+            import_data = build_import_data(import_data, self.upn_suffix, self.email_domain)
             logger.debug(f"Built import data from {self.source_file}")
             try:
                 res = import_ad_users(
@@ -294,6 +299,12 @@ class MainWindow(Ui_main_window, QMainWindow):
         Updates the upn_suffix attribute when editing is finished.
         """
         self.upn_suffix = self.upn_suffix_line_edit.text()
+    def _email_domain_line_edit_finished(self):
+        """Handle email domain line edit finished event.
+
+        Updates the email_domain attribute when editing is finished.
+        """
+        self.email_domain = self.email_domain_line_edit.text()
 
     def _destination_ou_line_edit_finished(self):
         """Handle destination OU line edit finished event.
@@ -312,6 +323,7 @@ class MainWindow(Ui_main_window, QMainWindow):
             "ad_server": self.ad_server,
             "ad_user": self.ad_user,
             "upn_suffix": self.upn_suffix,
+            "email_domain": self.email_domain,
             "destination_ou": self.destination_ou,
             "source_file": self.source_file,
         }

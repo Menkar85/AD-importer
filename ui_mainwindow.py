@@ -26,7 +26,7 @@ class Ui_main_window(object):
     def setupUi(self, main_window):
         if not main_window.objectName():
             main_window.setObjectName(u"main_window")
-        main_window.resize(1109, 863)
+        main_window.resize(1109, 944)
         font = QFont()
         font.setPointSize(9)
         main_window.setFont(font)
@@ -67,9 +67,7 @@ class Ui_main_window(object):
         font1 = QFont()
         font1.setPointSize(14)
         self.settings_group_box.setFont(font1)
-        self.verticalLayout_6 = QVBoxLayout(self.settings_group_box)
-        self.verticalLayout_6.setObjectName(u"verticalLayout_6")
-        self.horizontalLayout_2 = QHBoxLayout()
+        self.horizontalLayout_2 = QHBoxLayout(self.settings_group_box)
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
         self.verticalLayout_2 = QVBoxLayout()
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
@@ -97,11 +95,17 @@ class Ui_main_window(object):
 
         self.verticalLayout_2.addWidget(self.label_4)
 
+        self.label_8 = QLabel(self.settings_group_box)
+        self.label_8.setObjectName(u"label_8")
+        self.label_8.setFont(font1)
+
+        self.verticalLayout_2.addWidget(self.label_8)
+
 
         self.horizontalLayout_2.addLayout(self.verticalLayout_2)
 
-        self.verticalLayout_5 = QVBoxLayout()
-        self.verticalLayout_5.setObjectName(u"verticalLayout_5")
+        self.verticalLayout = QVBoxLayout()
+        self.verticalLayout.setObjectName(u"verticalLayout")
         self.horizontalLayout = QHBoxLayout()
         self.horizontalLayout.setObjectName(u"horizontalLayout")
         self.ad_server_line_edit = QLineEdit(self.settings_group_box)
@@ -116,10 +120,8 @@ class Ui_main_window(object):
         self.horizontalLayout.addWidget(self.test_button)
 
 
-        self.verticalLayout_5.addLayout(self.horizontalLayout)
+        self.verticalLayout.addLayout(self.horizontalLayout)
 
-        self.verticalLayout = QVBoxLayout()
-        self.verticalLayout.setObjectName(u"verticalLayout")
         self.username_line_edit = QLineEdit(self.settings_group_box)
         self.username_line_edit.setObjectName(u"username_line_edit")
 
@@ -136,14 +138,13 @@ class Ui_main_window(object):
 
         self.verticalLayout.addWidget(self.upn_suffix_line_edit)
 
+        self.email_domain_line_edit = QLineEdit(self.settings_group_box)
+        self.email_domain_line_edit.setObjectName(u"email_domain_line_edit")
 
-        self.verticalLayout_5.addLayout(self.verticalLayout)
+        self.verticalLayout.addWidget(self.email_domain_line_edit)
 
 
-        self.horizontalLayout_2.addLayout(self.verticalLayout_5)
-
-
-        self.verticalLayout_6.addLayout(self.horizontalLayout_2)
+        self.horizontalLayout_2.addLayout(self.verticalLayout)
 
 
         self.verticalLayout_4.addWidget(self.settings_group_box)
@@ -321,6 +322,7 @@ class Ui_main_window(object):
         self.label_2.setText(QCoreApplication.translate("main_window", u"User name:", None))
         self.label_3.setText(QCoreApplication.translate("main_window", u"Password:", None))
         self.label_4.setText(QCoreApplication.translate("main_window", u"UPN-suffix:", None))
+        self.label_8.setText(QCoreApplication.translate("main_window", u"E-mail domain:", None))
         self.test_button.setText(QCoreApplication.translate("main_window", u"Test", None))
         self.groupBox.setTitle(QCoreApplication.translate("main_window", u"Import configuration", None))
         self.label_6.setText(QCoreApplication.translate("main_window", u"Source file:", None))

@@ -3,7 +3,7 @@
 [![Python](https://img.shields.io/badge/Python-3.10+-blue.svg)](https://www.python.org/downloads/)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-green.svg)](LICENSE)
 [![GitHub stars](https://img.shields.io/github/stars/menkar85/AD-importer)](https://github.com/menkar85/AD-importer/stargazers)
-[![Version](https://img.shields.io/badge/version-0.1.1-green.svg)](https://github.com/menkar85/AD-importer/releases)
+[![Version](https://img.shields.io/badge/version-0.1.2-green.svg)](https://github.com/menkar85/AD-importer/releases)
 
 A lightweight PySide6 desktop application for batch user creation in Active Directory. Import users from Excel files with automatic OU creation, username transliteration (Russian→English), and comprehensive result reporting.
 
@@ -66,6 +66,7 @@ python main.py
    - **Username**: Provide your AD account (e.g., `administrator@company.local`)
    - **Password**: Enter your AD password
    - **UPN Suffix**: Specify your UPN domain (e.g., `company.local`)
+   - **Email domain**: Specify e-mail domain which will be appended for created users(e.g., `mail.company.local`)
 
 2. **Configure Import Settings**:
 
@@ -135,7 +136,7 @@ During import, the application automatically generates:
 - **Common Name (cn)**: `transliterated_Surname + optional_suffix`
 - **Display Name**: `Given name + Family Name`
 - **User Principal Name**: `cn@<UPN_suffix>`
-- **Email Address**: `cn@<UPN_suffix>` (same domain as UPN suffix)
+- **Email Address**: `cn@<email_domain>` (UPN will be used if no email_domain provided)
 
 ### Example Template
 
